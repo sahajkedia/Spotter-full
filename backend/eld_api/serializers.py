@@ -32,6 +32,8 @@ class TripSerializer(serializers.ModelSerializer):
 
 
 class TripCreateSerializer(serializers.ModelSerializer):
+    current_location = serializers.CharField(required=False, allow_blank=True, default='')
+    
     class Meta:
         model = Trip
         fields = ['current_location', 'pickup_location', 'dropoff_location', 'current_cycle_hours'] 

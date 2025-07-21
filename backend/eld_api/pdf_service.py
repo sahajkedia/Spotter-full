@@ -102,11 +102,11 @@ class ELDPDFService:
         story.append(Spacer(1, 20))
         
         # Daily Log Entries
-        if log_sheet.entries:
+        if log_sheet.entries.all():
             story.append(Paragraph("Daily Log Entries", self.styles['Heading2']))
             
             entries_data = [['Time', 'Status', 'Location', 'Remarks']]
-            for entry in log_sheet.entries:
+            for entry in log_sheet.entries.all():
                 entries_data.append([
                     str(entry.time),
                     entry.status.replace('_', ' ').title(),

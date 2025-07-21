@@ -6,7 +6,7 @@ from decimal import Decimal
 class Trip(models.Model):
     """Model for storing trip information"""
     driver = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    current_location = models.CharField(max_length=255)
+    current_location = models.CharField(max_length=255, blank=True, default='')
     pickup_location = models.CharField(max_length=255)
     dropoff_location = models.CharField(max_length=255)
     current_cycle_hours = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.00'))
