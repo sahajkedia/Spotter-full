@@ -12,7 +12,6 @@ import {
 	StepLabel,
 	StepContent,
 	Divider,
-	Chip,
 	useMediaQuery,
 	useTheme,
 	Fade,
@@ -20,9 +19,6 @@ import {
 	CircularProgress,
 	Alert,
 	Grid,
-	Paper,
-	Avatar,
-	LinearProgress,
 } from "@mui/material";
 import {
 	LocalShipping,
@@ -32,11 +28,9 @@ import {
 	CheckCircle,
 	ArrowForward,
 	PlayArrow,
-	Timeline,
-	Speed,
-	DirectionsCar,
 } from "@mui/icons-material";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 function TripForm() {
 	const navigate = useNavigate();
@@ -119,7 +113,7 @@ function TripForm() {
 		setError("");
 
 		try {
-			const response = await axios.get("/api/calculate-route/", {
+			const response = await axios.get(`${API_BASE_URL}/api/calculate-route/`, {
 				params: formData,
 			});
 			// The API returns route data directly
@@ -159,7 +153,10 @@ function TripForm() {
 		setError("");
 
 		try {
-			const response = await axios.post("/api/trips/create/", formData);
+			const response = await axios.post(
+				`${API_BASE_URL}/api/trips/create/`,
+				formData
+			);
 			// The API returns a nested structure with trip data
 			const tripId = response.data.trip?.id || response.data.id;
 			if (tripId) {

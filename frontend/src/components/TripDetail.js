@@ -14,7 +14,6 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
 	Accordion,
 	AccordionSummary,
 	AccordionDetails,
@@ -22,36 +21,22 @@ import {
 	Alert,
 	Divider,
 	Avatar,
-	IconButton,
-	useMediaQuery,
-	useTheme,
-	Fade,
-	Zoom,
-	LinearProgress,
 } from "@mui/material";
 import {
 	LocalShipping,
 	Route,
-	AccessTime,
 	LocationOn,
 	Description,
 	ExpandMore,
 	ArrowBack,
 	Download,
-	Timeline,
-	Speed,
-	DirectionsCar,
-	CheckCircle,
-	Warning,
-	Info,
 } from "@mui/icons-material";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 function TripDetail() {
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
 	const [trip, setTrip] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -59,7 +44,7 @@ function TripDetail() {
 
 	const fetchTrip = useCallback(async () => {
 		try {
-			const response = await axios.get(`/api/trips/${id}/`);
+			const response = await axios.get(`${API_BASE_URL}/api/trips/${id}/`);
 			setTrip(response.data);
 		} catch (err) {
 			setError("Failed to load trip details");
@@ -115,9 +100,12 @@ function TripDetail() {
 
 	const handleDownloadPDF = async (logSheetId, date) => {
 		try {
-			const response = await axios.get(`/api/log-sheets/${logSheetId}/pdf/`, {
-				responseType: "blob",
-			});
+			const response = await axios.get(
+				`${API_BASE_URL}/api/log-sheets/${logSheetId}/pdf/`,
+				{
+					responseType: "blob",
+				}
+			);
 
 			// Create a blob URL and trigger download
 			const blob = new Blob([response.data], { type: "application/pdf" });

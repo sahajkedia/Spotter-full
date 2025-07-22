@@ -10,33 +10,25 @@ import {
 	Grid,
 	CircularProgress,
 	Alert,
-	useMediaQuery,
-	useTheme,
 	Fade,
 	Zoom,
 	Divider,
 	Avatar,
-	IconButton,
 	Chip,
 } from "@mui/material";
 import {
 	LocalShipping,
-	Route,
 	AccessTime,
 	Visibility,
 	History,
 	LocationOn,
 	CalendarToday,
-	Speed,
-	TrendingUp,
-	DirectionsCar,
 } from "@mui/icons-material";
 import axios from "axios";
+import { API_BASE_URL } from "../config";
 
 function TripList() {
 	const navigate = useNavigate();
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
 	const [trips, setTrips] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -48,7 +40,7 @@ function TripList() {
 
 	const fetchTrips = async () => {
 		try {
-			const response = await axios.get("/api/trips/");
+			const response = await axios.get(`${API_BASE_URL}/api/trips/`);
 			setTrips(response.data);
 		} catch (err) {
 			setError("Failed to load trips");
@@ -63,14 +55,6 @@ function TripList() {
 			month: "short",
 			day: "numeric",
 			year: "numeric",
-		});
-	};
-
-	const formatTime = (dateString) => {
-		const date = new Date(dateString);
-		return date.toLocaleTimeString("en-US", {
-			hour: "2-digit",
-			minute: "2-digit",
 		});
 	};
 
@@ -440,7 +424,7 @@ function TripList() {
 												</Typography>
 											</Box>
 											<Box sx={{ display: "flex", alignItems: "center" }}>
-												<Speed
+												<AccessTime
 													sx={{ fontSize: 16, color: "text.secondary", mr: 1 }}
 												/>
 												<Typography
