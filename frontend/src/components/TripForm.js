@@ -153,9 +153,25 @@ function TripForm() {
 		setError("");
 
 		try {
+			// Prepare data with proper types
+			const requestData = {
+				...formData,
+				current_cycle_hours: formData.current_cycle_hours
+					? parseFloat(formData.current_cycle_hours)
+					: 0.0,
+			};
+
+			console.log("Sending data:", requestData); // Debug log
+			console.log("API URL:", `${API_BASE_URL}/api/trips/create/`); // Debug log
+
 			const response = await axios.post(
 				`${API_BASE_URL}/api/trips/create/`,
-				formData
+				requestData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
 			);
 			// The API returns a nested structure with trip data
 			const tripId = response.data.trip?.id || response.data.id;

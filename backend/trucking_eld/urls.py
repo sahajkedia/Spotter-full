@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('eld_api.urls')),
     path('health/', views.health_check, name='health_check'),
+    path('', views.root_view, name='root'),
 ]

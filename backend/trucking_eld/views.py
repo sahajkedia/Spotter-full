@@ -7,4 +7,19 @@ def health_check(request):
     return JsonResponse({
         'status': 'healthy',
         'message': 'Django backend is running successfully'
+    })
+
+@csrf_exempt
+def root_view(request):
+    """Root endpoint to handle requests to /"""
+    return JsonResponse({
+        'message': 'Spotter Backend API',
+        'endpoints': {
+            'health': '/health/',
+            'api_test': '/api/test/',
+            'trips': '/api/trips/',
+            'create_trip': '/api/trips/create/',
+            'calculate_route': '/api/calculate-route/'
+        },
+        'status': 'running'
     }) 
