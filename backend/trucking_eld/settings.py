@@ -151,6 +151,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
+# Allow specific origins for production
+CORS_ALLOWED_ORIGINS = [
+    "https://eld-project.netlify.app",
+    "https://eld-connect.onrender.com",
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
+
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
