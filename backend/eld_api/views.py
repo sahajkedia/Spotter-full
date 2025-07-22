@@ -13,9 +13,15 @@ from decimal import Decimal
 @api_view(['POST'])
 def create_trip(request):
     """Create a new trip and calculate route"""
+    print(f"🔍 Received request data: {request.data}")
+    print(f"🔍 Request method: {request.method}")
+    print(f"🔍 Content type: {request.content_type}")
+    
     serializer = TripCreateSerializer(data=request.data)
     if serializer.is_valid():
+        print(f"✅ Serializer is valid")
         trip = serializer.save()
+        print(f"✅ Trip created with ID: {trip.id}")
         
         # Calculate route
         route_service = RouteService()
@@ -26,6 +32,7 @@ def create_trip(request):
         )
         
         if route_data:
+            print(f"✅ Route calculated successfully")
             # Update trip with calculated data
             trip.total_distance = route_data['total_distance']
             trip.estimated_duration = route_data['estimated_driving_hours']
@@ -81,12 +88,17 @@ def create_trip(request):
                 'message': 'Trip created successfully with route and ELD logs'
             }, status=status.HTTP_201_CREATED)
         else:
+            print(f"❌ Route calculation failed")
             trip.delete()
             return Response({
                 'error': 'Could not calculate route for the given locations'
             }, status=status.HTTP_400_BAD_REQUEST)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        print(f"❌ Serializer errors: {serializer.errors}")
+        return Response({
+            'error': 'Invalid data provided',
+            'details': serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -158,3 +170,19 @@ def download_log_sheet_pdf(request, log_sheet_id):
     response['Content-Disposition'] = f'attachment; filename="eld_log_sheet_{log_sheet.date}.pdf"'
     
     return response
+
+
+@api_view(['GET', 'POST'])
+def test_endpoint(request):
+    """Test endpoint for debugging"""
+    print(f"🔍 Test endpoint called")
+    print(f"🔍 Method: {request.method}")
+    print(f"🔍 Data: {request.data}")
+    print(f"🔍 Query params: {request.query_params}")
+    
+    return Response({
+        'message': 'Test endpoint working',
+        'method': request.method,
+        'data_received': request.data,
+        'query_params': request.query_params
+    })
