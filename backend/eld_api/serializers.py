@@ -36,4 +36,9 @@ class TripCreateSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Trip
-        fields = ['current_location', 'pickup_location', 'dropoff_location', 'current_cycle_hours'] 
+        fields = ['current_location', 'pickup_location', 'dropoff_location', 'current_cycle_hours']
+    
+    def create(self, validated_data):
+        # Set a default driver or make it optional
+        validated_data['driver'] = None  # Make driver optional for now
+        return super().create(validated_data) 
