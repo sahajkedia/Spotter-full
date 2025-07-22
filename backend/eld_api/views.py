@@ -8,11 +8,16 @@ from .serializers import TripSerializer, TripCreateSerializer, LogSheetSerialize
 from .services import RouteService, ELDService
 from .pdf_service import ELDPDFService
 from decimal import Decimal
+import logging
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
 def create_trip(request):
     """Create a new trip and calculate route"""
+    logger.info(f"Received data: {request.data}")  # Debug logging
     print(f"Received data: {request.data}")  # Debug logging
     serializer = TripCreateSerializer(data=request.data)
     if serializer.is_valid():
@@ -160,3 +165,14 @@ def download_log_sheet_pdf(request, log_sheet_id):
     response['Content-Disposition'] = f'attachment; filename="eld_log_sheet_{log_sheet.date}.pdf"'
     
     return response
+
+
+@api_view(['GET'])
+def test_api(request):
+    """Simple test endpoint to verify API is working"""
+    logger.info("Test API endpoint called")
+    return Response({
+        'message': 'API is working!',
+        'status': 'success',
+        'timestamp': datetime.now().isoformat()
+    })
