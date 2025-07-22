@@ -29,6 +29,7 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    'eld-connect.onrender.com',
     '.railway.app',
     '.vercel.app',
     '.render.com',
