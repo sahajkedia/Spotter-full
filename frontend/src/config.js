@@ -2,7 +2,7 @@
 const API_CONFIG = {
 	development: "http://localhost:8000",
 	production:
-		process.env.REACT_APP_API_URL || "https://your-backend-url.railway.app",
+		process.env.REACT_APP_API_URL || "https://eld-connect.onrender.com",
 };
 
 export const API_BASE_URL =
